@@ -5,6 +5,7 @@ enable_testing()
 
 find_package(PkgConfig REQUIRED)
 find_package(GTest REQUIRED)
+find_package(TBB REQUIRED COMPONENTS tbb)
 
 set(CMAKE_CXX_STANDARD 23)
 
@@ -66,6 +67,9 @@ function(make_day DAY)
 
     target_link_options("day${DAY}" PRIVATE ${WARNING_FLAGS})
     target_compile_definitions("day${DAY}" PUBLIC INPUT_DIRECTORY="${INPUT_DIRECTORY}")
+    target_link_libraries("day${DAY}"
+            tbb
+    )
 
     add_executable("day${DAY}Test"
             "tests/day${DAY}.cpp"
@@ -74,9 +78,9 @@ function(make_day DAY)
 
     target_compile_options("day${DAY}Test" PRIVATE ${WARNING_FLAGS} --coverage)
 
-    target_link_libraries(
-            "day${DAY}Test"
+    target_link_libraries("day${DAY}Test"
             GTest::Main
+            tbb
             gcov
     )
 
