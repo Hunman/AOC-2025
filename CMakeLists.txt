@@ -87,3 +87,4 @@ include(GoogleTest)
 include(CTestCoverageCollectGCOV)
 
 make_day(1)
+make_day(2)
