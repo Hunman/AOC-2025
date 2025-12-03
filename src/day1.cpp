@@ -1,11 +1,10 @@
-#include <filesystem>
-#include <fstream>
-#include <iostream>
-#include <string>
-#include <vector>
-
 #include "day1/dial.h"
 #include "stopwatch.hpp"
+
+#include <filesystem>
+#include <fstream>
+#include <string>
+#include <vector>
 
 namespace {
     std::vector<std::string> getLines() {
@@ -60,7 +59,7 @@ namespace {
 
         return zeros;
     }
-}
+} // namespace
 
 int main() {
     auto lines = stopwatch("Reading the lines", [] {
@@ -76,8 +75,8 @@ int main() {
 
     {
         auto e2 = stopwatch("Exercise 2", [&lines] {
-           return exercise2(lines);
-       });
+            return exercise2(lines);
+        });
         std::printf("Exercise 2: the dial hit zero %lu times\n", e2);
     }
 

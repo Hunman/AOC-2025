@@ -26,7 +26,7 @@ namespace {
 
         return result;
     }
-}
+} // namespace
 
 uint64_t JoltageMeter::maxDoubleDigit(const std::string &bank) {
     return maxDigit<2>(bank);

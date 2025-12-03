@@ -8,7 +8,8 @@ namespace {
     template <typename... Ts>
     concept AreUnsignedIntegrals = ((std::is_integral_v<Ts> && std::is_unsigned_v<Ts>) && ...);
 
-    template <typename B, typename E> requires AreUnsignedIntegrals<B, E>
+    template <typename B, typename E>
+    requires AreUnsignedIntegrals<B, E>
     constexpr auto myPow(B base, E exponent) {
         if (exponent == 0) {
             return 1u;
@@ -16,7 +17,7 @@ namespace {
 
         return base * myPow(base, exponent - 1);
     }
-}
+} // namespace
 
 bool InvalidFinder::checkTwice(uint64_t number) {
     auto length = static_cast<uint32_t>(log10(number)) + 1u;

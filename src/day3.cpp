@@ -1,9 +1,9 @@
+#include "day3/joltage_meter.hpp"
+#include "stopwatch.hpp"
+
 #include <filesystem>
 #include <fstream>
 #include <iostream>
-
-#include "stopwatch.hpp"
-#include "day3/joltage_meter.hpp"
 
 namespace {
     std::vector<std::string> getLines() {
@@ -44,7 +44,7 @@ namespace {
 
         return sum;
     }
-}
+} // namespace
 
 int main() {
     std::printf("[Parsing inputs]\n");

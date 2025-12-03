@@ -1,5 +1,5 @@
-#include "gtest/gtest.h"
 #include "day1/dial.h"
+#include "gtest/gtest.h"
 
 TEST(Day1Test, OverflowReturnsToZero) {
     Dial dial{99, 100};
@@ -108,7 +108,7 @@ TEST(Day1Test, Exercise2GivenExample) {
 TEST(Day1Test, MultiOverflowCountsCorrectly) {
     Dial dial{50, 100};
 
-    auto zeros = dial.right(1'000);
+    auto zeros = dial.right(1000);
 
     ASSERT_EQ(10, zeros);
 }

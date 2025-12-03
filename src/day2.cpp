@@ -1,16 +1,16 @@
+#include "day2/invalid_finder.hpp"
+#include "day2/range.hpp"
+#include "stopwatch.hpp"
+
 #include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <ranges>
 #include <vector>
 
-#include "stopwatch.hpp"
-#include "day2/invalid_finder.hpp"
-#include "day2/range.hpp"
-
 namespace {
     std::vector<Range> getIntervals() {
-        using std::string_view_literals::operator ""sv;
+        using std::string_view_literals::operator""sv;
 
         std::ifstream in{std::filesystem::path(INPUT_DIRECTORY) / "day2.txt"};
         std::string fileContent;
@@ -18,7 +18,7 @@ namespace {
 
         std::vector<Range> ret;
 
-        for (const auto line : std::views::split(fileContent, ","sv)) {
+        for (const auto line: std::views::split(fileContent, ","sv)) {
             auto sv = std::string_view(line);
             auto start = std::stoull(&sv[0]);
             auto end = std::stoull(&(sv[sv.find('-') + 1]));
@@ -56,7 +56,7 @@ namespace {
 
         return sums;
     }
-};
+}; // namespace
 
 int main() {
     std::printf("[Parsing inputs]\n");

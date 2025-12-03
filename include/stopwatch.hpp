@@ -15,8 +15,8 @@ auto stopwatch(const std::string_view name, const auto &callback) {
             auto diff = std::chrono::high_resolution_clock::now() - start;
 
             std::cout << name << " took " << std::chrono::duration_cast<std::chrono::microseconds>(diff) << " ≈ "
-                << diff / 1ms << "ms ≈ " // almost equivalent form of the above, but
-                << diff / 1s << "s.\n";  // using milliseconds and seconds accordingly
+                      << diff / 1ms << "ms ≈ " // almost equivalent form of the above, but
+                      << diff / 1s << "s.\n"; // using milliseconds and seconds accordingly
         }
 
     private:
