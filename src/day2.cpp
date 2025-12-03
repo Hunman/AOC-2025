@@ -2,13 +2,15 @@
 #include "day2/range.hpp"
 #include "stopwatch.hpp"
 
+#include <execution>
 #include <filesystem>
 #include <fstream>
-#include <iostream>
 #include <ranges>
 #include <vector>
 
 namespace {
+    constexpr auto execution = std::execution::par_unseq;
+
     std::vector<Range> getIntervals() {
         using std::string_view_literals::operator""sv;
 
@@ -30,31 +32,35 @@ namespace {
     }
 
     size_t exercise1(const std::vector<Range> intervals) {
-        auto sums = 0uz;
-
-        for (const auto &interval: intervals) {
-            for (auto i = interval.start; i <= interval.end; i++) {
-                if (InvalidFinder::checkTwice(i)) {
-                    sums += i;
-                }
+        return std::transform_reduce(
+            execution,
+            intervals.begin(),
+            intervals.end(),
+            0L,
+            std::plus{},
+            [](const Range &interval) {
+                auto range = std::views::iota(interval.start, interval.end + 1);
+                return std::transform_reduce(execution, range.begin(), range.end(), 0L, std::plus{}, [](const auto i) {
+                    return InvalidFinder::checkTwice(i) ? i : 0;
+                });
             }
-        }
-
-        return sums;
+        );
     }
 
     size_t exercise2(const std::vector<Range> intervals) {
-        auto sums = 0uz;
-
-        for (const auto &interval: intervals) {
-            for (auto i = interval.start; i <= interval.end; i++) {
-                if (InvalidFinder::checkAtLeastTwice(i)) {
-                    sums += i;
-                }
+        return std::transform_reduce(
+            execution,
+            intervals.begin(),
+            intervals.end(),
+            0L,
+            std::plus{},
+            [](const Range &interval) {
+                auto range = std::views::iota(interval.start, interval.end + 1);
+                return std::transform_reduce(execution, range.begin(), range.end(), 0L, std::plus{}, [](const auto i) {
+                    return InvalidFinder::checkAtLeastTwice(i) ? i : 0;
+                });
             }
-        }
-
-        return sums;
+        );
     }
 }; // namespace
 
