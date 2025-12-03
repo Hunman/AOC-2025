@@ -88,3 +88,4 @@ include(CTestCoverageCollectGCOV)
 
 make_day(1)
 make_day(2)
+make_day(3)
