@@ -7,7 +7,8 @@
 #include <ranges>
 
 namespace {
-    constexpr auto execution = std::execution::seq;
+    constexpr auto execution1 = std::execution::unseq;
+    constexpr auto execution2 = std::execution::par;
 
     std::vector<std::string> getLines() {
         std::ifstream in{std::filesystem::path(INPUT_DIRECTORY) / "day4.txt"};
@@ -32,9 +33,9 @@ namespace {
         Room room{lines};
 
         auto rows = std::views::iota(0, static_cast<int32_t>(room.rows()));
-        return std::transform_reduce(execution, rows.begin(), rows.end(), 0uz, std::plus{}, [&room](int32_t y) -> size_t {
+        return std::transform_reduce(execution1, rows.begin(), rows.end(), 0uz, std::plus{}, [&room](int32_t y) -> size_t {
             auto columns = std::views::iota(0, static_cast<int32_t>(room.columns()));
-            return std::transform_reduce(execution, columns.begin(), columns.end(), 0uz, std::plus{}, [&room, y](int32_t x) -> size_t {
+            return std::transform_reduce(execution1, columns.begin(), columns.end(), 0uz, std::plus{}, [&room, y](int32_t x) -> size_t {
                 return room[x, y].isRemovable();
             });
         });
@@ -48,9 +49,9 @@ namespace {
 
         do {
             auto rows = std::views::iota(0, static_cast<int32_t>(room.rows()));
-            removed = std::transform_reduce(execution, rows.begin(), rows.end(), 0uz, std::plus{}, [&room](int32_t y) -> size_t {
+            removed = std::transform_reduce(execution2, rows.begin(), rows.end(), 0uz, std::plus{}, [&room](int32_t y) -> size_t {
                 auto columns = std::views::iota(0, static_cast<int32_t>(room.columns()));
-                return std::transform_reduce(execution, columns.begin(), columns.end(), 0uz, std::plus{}, [&room, y](int32_t x) -> size_t {
+                return std::transform_reduce(execution2, columns.begin(), columns.end(), 0uz, std::plus{}, [&room, y](int32_t x) -> size_t {
                     auto cell = room[x, y];
                     if (!cell.isRemovable()) {
                         return false;
