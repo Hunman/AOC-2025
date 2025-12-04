@@ -2,11 +2,11 @@
 #include "watch.hpp"
 
 template <auto L, auto F>
-concept CanBeFedInto = requires() {
+concept CanBePipedInto = requires() {
     F(L());
 };
 
-template <size_t D, auto L, auto E1, auto E2> requires CanBeFedInto<L, E1> && CanBeFedInto<L, E2>
+template <size_t D, auto L, auto E1, auto E2> requires CanBePipedInto<L, E1> && CanBePipedInto<L, E2>
 void run() {
     std::printf("[Day %zu]\n", D);
 
