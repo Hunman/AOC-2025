@@ -1,5 +1,5 @@
 #pragma once
-#include "stopwatch.hpp"
+#include "watch.hpp"
 
 template <auto L, auto F>
 concept CanBeFedInto = requires() {

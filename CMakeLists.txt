@@ -62,7 +62,7 @@ function(make_day DAY)
     file(GLOB EXTRA_FILES "src/day${DAY}/*.cpp")
 
     add_executable("day${DAY}"
-            "src/day${DAY}.cpp" "${EXTRA_FILES}" "include/stopwatch.hpp"
+            "src/day${DAY}.cpp" "${EXTRA_FILES}"
     )
 
     target_link_options("day${DAY}" PRIVATE ${WARNING_FLAGS})
