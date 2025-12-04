@@ -1,5 +1,5 @@
 #include "day1/dial.h"
-#include "stopwatch.hpp"
+#include "framework.hpp"
 
 #include <filesystem>
 #include <fstream>
@@ -62,23 +62,7 @@ namespace {
 } // namespace
 
 int main() {
-    auto lines = stopwatch("Reading the lines", [] {
-        return getLines();
-    });
-
-    {
-        auto e1 = stopwatch("Exercise 1", [&lines] {
-            return exercise1(lines);
-        });
-        std::printf("Exercise 1: the dial was on zero %lu times\n", e1);
-    }
-
-    {
-        auto e2 = stopwatch("Exercise 2", [&lines] {
-            return exercise2(lines);
-        });
-        std::printf("Exercise 2: the dial hit zero %lu times\n", e2);
-    }
+    run<1, getLines, exercise1, exercise2>();
 
     return 0;
 }

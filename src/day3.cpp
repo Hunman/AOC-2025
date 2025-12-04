@@ -1,5 +1,5 @@
 #include "day3/joltage_meter.hpp"
-#include "stopwatch.hpp"
+#include "framework.hpp"
 
 #include <execution>
 #include <filesystem>
@@ -42,22 +42,7 @@ namespace {
 } // namespace
 
 int main() {
-    std::printf("[Parsing inputs]\n");
-    auto lines = stopwatch("   ", [] {
-        return getLines();
-    });
-
-    std::printf("\n[Exercise 1]\n");
-    auto e1 = stopwatch("   ", [&lines] {
-        return exercise1(lines);
-    });
-    std::printf("    the result is %lu\n", e1);
-
-    std::printf("\n[Exercise 2]\n");
-    auto e2 = stopwatch("   ", [&lines] {
-        return exercise2(lines);
-    });
-    std::printf("    the result is %lu\n", e2);
+    run<3, getLines, exercise1, exercise2>();
 
     return 0;
 }
