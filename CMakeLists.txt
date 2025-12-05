@@ -65,7 +65,7 @@ function(make_day DAY)
             "src/day${DAY}.cpp" "${EXTRA_FILES}"
     )
 
-    target_link_options("day${DAY}" PRIVATE ${WARNING_FLAGS})
+    target_compile_options("day${DAY}" PRIVATE ${WARNING_FLAGS})
     target_compile_definitions("day${DAY}" PUBLIC INPUT_DIRECTORY="${INPUT_DIRECTORY}")
     target_link_libraries("day${DAY}"
             tbb
@@ -77,7 +77,6 @@ function(make_day DAY)
     )
 
     target_compile_options("day${DAY}Test" PRIVATE ${WARNING_FLAGS} --coverage)
-
     target_link_libraries("day${DAY}Test"
             GTest::Main
             tbb
