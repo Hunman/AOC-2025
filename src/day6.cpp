@@ -10,7 +10,7 @@
 namespace {
     constexpr auto PROBLEM_SIZE = 4uz;
     constexpr auto PROBLEM_COUNT = 1000uz;
-    constexpr auto execution = std::execution::par_unseq;
+    constexpr auto execution = std::execution::seq;
 
     struct Input {
         std::vector<Problem<PROBLEM_SIZE>> day1;
