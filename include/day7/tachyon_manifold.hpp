@@ -1,8 +1,6 @@
 #pragma once
 #include <execution>
 #include <iostream>
-#include <map>
-#include <set>
 #include <string>
 #include <vector>
 
@@ -18,43 +16,46 @@ public:
     explicit TachyonManifold(Input &&input);
 
     uint64_t exercise1() const {
-        std::set<uint64_t> beams;
+        std::vector<bool> beams(input[0].length());
 
-        beams.insert(input[0].find('S'));
+        beams[input[0].find('S')] = true;
         auto splits = 1ull;
 
         for (size_t l = 1; l < input.size(); l++) {
             for (size_t i = 0; i < input[l].size(); i++) {
-                if (input[l][i] == SPLITTER && beams.contains(i)) {
-                    beams.erase(i);
-                    splits += beams.insert(i - 1).second;
-                    splits += beams.insert(i + 1).second;
+                if (input[l][i] == SPLITTER && beams[i]) {
+                    beams[i] = false;
+                    if (!beams[i - 1]) {
+                        beams[i - 1] = true;
+                        splits++;
+                    }
+                    if (!beams[i + 1]) {
+                        beams[i + 1] = true;
+                        splits++;
+                    }
                 }
             }
         }
 
-        return splits - beams.size();
+        return splits - std::count(beams.begin(), beams.end(), true);
     }
 
     uint64_t exercise2() const {
-        using Map = std::map<uint64_t, uint64_t>;
-        Map beams;
+        std::vector<uint64_t> beams(input[0].length());
 
-        beams[input[0].find('S')] = 1;
+        beams[input[0].find('S')] = true;
 
         for (size_t l = 1; l < input.size(); l++) {
             for (size_t i = 0; i < input[l].size(); i++) {
-                if (input[l][i] == SPLITTER && beams.contains(i)) {
+                if (input[l][i] == SPLITTER && beams[i]) {
                     beams[i - 1] += beams[i];
                     beams[i + 1] += beams[i];
-                    beams.erase(i);
+                    beams[i] = 0;
                 }
             }
         }
 
-        return std::transform_reduce(beams.begin(), beams.end(), 0ull, std::plus{}, [](const Map::value_type &pair) {
-            return pair.second;
-        });
+        return std::reduce(beams.begin(), beams.end(), 0ull, std::plus{});
     }
 
 private:
