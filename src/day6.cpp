@@ -7,18 +7,19 @@
 #include <fstream>
 #include <functional>
 
-namespace {
-    constexpr auto PROBLEM_SIZE = 4uz;
-    constexpr auto PROBLEM_COUNT = 1000uz;
-    constexpr auto execution = std::execution::seq;
+class Day6: public Day<6> {
+public:
+    static constexpr auto PROBLEM_SIZE = 4uz;
+    static constexpr auto PROBLEM_COUNT = 1000uz;
+    static constexpr auto execution = std::execution::seq;
 
     struct Input {
         std::vector<Problem<PROBLEM_SIZE>> day1;
         CephaloProblem<PROBLEM_SIZE> day2;
     };
 
-    Input getLines() {
-        std::ifstream in{std::filesystem::path(INPUT_DIRECTORY) / "day6.txt"};
+    static Input getInput() {
+        std::ifstream in{getInputPath()};
 
         Input input{};
         input.day1.resize(PROBLEM_COUNT);
@@ -46,7 +47,7 @@ namespace {
         return input;
     }
 
-    uint64_t exercise1(const Input &input) {
+    static uint64_t exercise1(const Input &input) {
         return std::transform_reduce(
             execution,
             input.day1.begin(),
@@ -59,13 +60,13 @@ namespace {
         );
     }
 
-    uint64_t exercise2(const Input &input) {
+    static uint64_t exercise2(const Input &input) {
         return input.day2.result();
     }
-} // namespace
+};
 
 int main() {
-    run<6, getLines, exercise1, exercise2>();
+    Framework<Day6>::run();
 
     return 0;
 }

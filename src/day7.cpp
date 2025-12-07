@@ -4,13 +4,13 @@
 #include <execution>
 #include <filesystem>
 #include <fstream>
-#include <functional>
 
-namespace {
-    constexpr auto execution = std::execution::seq;
+class Day7: public Day<7> {
+public:
+    static constexpr auto execution = std::execution::seq;
 
-    TachyonManifold getLines() {
-        std::ifstream in{std::filesystem::path(INPUT_DIRECTORY) / "day7.txt"};
+    static TachyonManifold getInput() {
+        std::ifstream in{getInputPath()};
 
         auto lineCount = 0uz;
         for (std::string line; std::getline(in, line);) {
@@ -28,17 +28,17 @@ namespace {
         return TachyonManifold{std::move(lines)};
     }
 
-    uint64_t exercise1(const TachyonManifold &input) {
+    static uint64_t exercise1(const TachyonManifold &input) {
         return input.exercise1();
     }
 
-    uint64_t exercise2(const TachyonManifold &input) {
+    static uint64_t exercise2(const TachyonManifold &input) {
         return input.exercise2();
     }
-} // namespace
+};
 
 int main() {
-    run<7, getLines, exercise1, exercise2>();
+    Framework<Day7>::run();
 
     return 0;
 }

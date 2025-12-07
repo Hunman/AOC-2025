@@ -6,19 +6,23 @@
 #include <fstream>
 #include <ranges>
 
-namespace {
-    constexpr auto execution1 = std::execution::unseq;
-    constexpr auto execution2 = std::execution::par;
+class Day4: public Day<4> {
+public:
+    static constexpr auto execution1 = std::execution::unseq;
+    static constexpr auto execution2 = std::execution::par;
 
-    std::vector<std::string> getLines() {
-        std::ifstream in{std::filesystem::path(INPUT_DIRECTORY) / "day4.txt"};
+    using Line = std::string;
+    using Input = std::vector<Line>;
+
+    static Input getInput() {
+        std::ifstream in{getInputPath()};
 
         auto lineCount = 0uz;
         for (std::string line; std::getline(in, line);) {
             lineCount++;
         }
 
-        std::vector<std::string> lines{lineCount};
+        Input lines{lineCount};
         in.clear();
         in.seekg(0);
 
@@ -29,19 +33,19 @@ namespace {
         return lines;
     }
 
-    size_t exercise1(const std::vector<std::string> &lines) {
+    static uint64_t exercise1(const Input &lines) {
         Room room{lines};
 
         auto rows = std::views::iota(0, static_cast<int32_t>(room.rows()));
-        return std::transform_reduce(execution1, rows.begin(), rows.end(), 0uz, std::plus{}, [&room](int32_t y) -> size_t {
+        return std::transform_reduce(execution1, rows.begin(), rows.end(), 0uz, std::plus{}, [&room](int32_t y) -> uint64_t {
             auto columns = std::views::iota(0, static_cast<int32_t>(room.columns()));
-            return std::transform_reduce(execution1, columns.begin(), columns.end(), 0uz, std::plus{}, [&room, y](int32_t x) -> size_t {
+            return std::transform_reduce(execution1, columns.begin(), columns.end(), 0uz, std::plus{}, [&room, y](int32_t x) -> uint64_t {
                 return room[x, y].isRemovable();
             });
         });
     }
 
-    size_t exercise2(const std::vector<std::string> &lines) {
+    static uint64_t exercise2(const Input &lines) {
         Room room{lines};
 
         auto totalRemoved = 0uz;
@@ -49,9 +53,9 @@ namespace {
 
         do {
             auto rows = std::views::iota(0, static_cast<int32_t>(room.rows()));
-            removed = std::transform_reduce(execution2, rows.begin(), rows.end(), 0uz, std::plus{}, [&room](int32_t y) -> size_t {
+            removed = std::transform_reduce(execution2, rows.begin(), rows.end(), 0uz, std::plus{}, [&room](int32_t y) -> uint64_t {
                 auto columns = std::views::iota(0, static_cast<int32_t>(room.columns()));
-                return std::transform_reduce(execution2, columns.begin(), columns.end(), 0uz, std::plus{}, [&room, y](int32_t x) -> size_t {
+                return std::transform_reduce(execution2, columns.begin(), columns.end(), 0uz, std::plus{}, [&room, y](int32_t x) -> uint64_t {
                     auto cell = room[x, y];
                     if (!cell.isRemovable()) {
                         return false;
@@ -69,10 +73,10 @@ namespace {
 
         return totalRemoved;
     }
-} // namespace
+};
 
 int main() {
-    run<4, getLines, exercise1, exercise2>();
+    Framework<Day4>::run();
 
     return 0;
 }

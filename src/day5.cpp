@@ -6,14 +6,15 @@
 #include <fstream>
 #include <ranges>
 
-namespace {
+class Day5: public Day<5> {
+public:
     struct Input {
         Interval valids;
         std::vector<uint64_t> ingredients;
     };
 
-    Input getLines() {
-        std::ifstream in{std::filesystem::path(INPUT_DIRECTORY) / "day5.txt"};
+    static Input getInput() {
+        std::ifstream in{getInputPath()};
 
         Input input;
 
@@ -53,7 +54,7 @@ namespace {
         return input;
     }
 
-    uint64_t exercise1(const Input &input) {
+    static uint64_t exercise1(const Input &input) {
         return static_cast<uint64_t>(std::count_if(
             std::execution::par,
             input.ingredients.begin(),
@@ -64,13 +65,13 @@ namespace {
         ));
     }
 
-    uint64_t exercise2(const Input &input) {
+    static uint64_t exercise2(const Input &input) {
         return input.valids.getValidCount();
     }
-} // namespace
+};
 
 int main() {
-    run<5, getLines, exercise1, exercise2>();
+    Framework<Day5>::run();
 
     return 0;
 }

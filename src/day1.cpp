@@ -6,16 +6,20 @@
 #include <string>
 #include <vector>
 
-namespace {
-    std::vector<std::string> getLines() {
-        std::ifstream in{std::filesystem::path(INPUT_DIRECTORY) / "day1.txt"};
+class Day1: public Day<1> {
+public:
+    using Line = std::string;
+    using Input = std::vector<Line>;
+
+    static Input getInput() {
+        std::ifstream in{getInputPath()};
 
         auto lineCount = 0uz;
         for (std::string line; std::getline(in, line);) {
             lineCount++;
         }
 
-        std::vector<std::string> lines{lineCount};
+        Input lines{lineCount};
         in.clear();
         in.seekg(0);
 
@@ -26,10 +30,10 @@ namespace {
         return lines;
     }
 
-    size_t exercise1(const std::vector<std::string> &lines) {
+    static uint64_t exercise1(const Input &lines) {
         Dial dial{50, 100};
 
-        auto zeros = 0uz;
+        auto zeros = 0ull;
         for (const auto &line: lines) {
             size_t (Dial::*direction)(size_t) = &Dial::right;
             if (line[0] == 'L') {
@@ -45,7 +49,7 @@ namespace {
         return zeros;
     }
 
-    size_t exercise2(const std::vector<std::string> &lines) {
+    static uint64_t exercise2(const Input &lines) {
         Dial dial{50, 100};
 
         auto zeros = 0uz;
@@ -59,10 +63,10 @@ namespace {
 
         return zeros;
     }
-} // namespace
+};
 
 int main() {
-    run<1, getLines, exercise1, exercise2>();
+    Framework<Day1>::run();
 
     return 0;
 }

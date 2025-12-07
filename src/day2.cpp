@@ -8,17 +8,20 @@
 #include <ranges>
 #include <vector>
 
-namespace {
-    constexpr auto execution = std::execution::par_unseq;
+class Day2: public Day<2> {
+public:
+    static constexpr auto execution = std::execution::par_unseq;
 
-    std::vector<Range> getIntervals() {
+    using Input = std::vector<Range>;
+
+    static Input getInput() {
         using std::string_view_literals::operator""sv;
 
-        std::ifstream in{std::filesystem::path(INPUT_DIRECTORY) / "day2.txt"};
+        std::ifstream in{getInputPath()};
         std::string fileContent;
         std::getline(in, fileContent);
 
-        std::vector<Range> ret;
+        Input ret;
 
         for (const auto line: std::views::split(fileContent, ","sv)) {
             auto sv = std::string_view(line);
@@ -31,12 +34,12 @@ namespace {
         return ret;
     }
 
-    size_t exercise1(const std::vector<Range> intervals) {
+    static uint64_t exercise1(const Input &intervals) {
         return std::transform_reduce(
             execution,
             intervals.begin(),
             intervals.end(),
-            0L,
+            0ull,
             std::plus{},
             [](const Range &interval) {
                 auto range = std::views::iota(interval.start, interval.end + 1);
@@ -47,12 +50,12 @@ namespace {
         );
     }
 
-    size_t exercise2(const std::vector<Range> intervals) {
+    static uint64_t exercise2(const Input &intervals) {
         return std::transform_reduce(
             execution,
             intervals.begin(),
             intervals.end(),
-            0L,
+            0ull,
             std::plus{},
             [](const Range &interval) {
                 auto range = std::views::iota(interval.start, interval.end + 1);
@@ -62,10 +65,10 @@ namespace {
             }
         );
     }
-}; // namespace
+};
 
 int main() {
-    run<2, getIntervals, exercise1, exercise2>();
+    Framework<Day2>::run();
 
     return 0;
 }

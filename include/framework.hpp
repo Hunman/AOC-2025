@@ -1,32 +1,45 @@
 #pragma once
 #include "watch.hpp"
 
-template <auto L, auto F>
-concept CanBePipedInto = requires() {
-    F(L());
+#include <filesystem>
+
+template <typename T>
+class Framework {
+public:
+    static void run() {
+        std::printf("[Day %zu]\n", T::DAY);
+
+        printf("Reading input\n");
+        auto input = ([]() {
+            Watch watch;
+            return T::getInput();
+        })();
+
+        printf("Exercise 1\n");
+        auto r1 = ([](const auto &input) {
+            Watch watch;
+            return T::exercise1(input);
+        })(input);
+        std::cout << "    Result: " << r1 << "\n";
+
+        printf("Exercise 2\n");
+        auto r2 = ([](const auto &input) {
+            Watch watch;
+            return T::exercise2(input);
+        })(input);
+        std::cout << "    Result: " << r2 << "\n";
+    }
 };
 
-template <size_t D, auto L, auto E1, auto E2> requires CanBePipedInto<L, E1> && CanBePipedInto<L, E2>
-void run() {
-    std::printf("[Day %zu]\n", D);
+template <size_t D>
+class Day {
+public:
+    static constexpr auto DAY = D;
 
-    printf("Reading input\n");
-    auto input = ([]() {
-        Watch watch;
-        return L();
-    })();
+protected:
+    static constexpr std::filesystem::path getInputPath() {
+        using std::string_literals::operator""s;
 
-    printf("Exercise 1\n");
-    auto r1 = ([](const auto &input) {
-        Watch watch;
-        return E1(input);
-    })(input);
-    std::cout << "    Result: " << r1 << "\n";
-
-    printf("Exercise 2\n");
-    auto r2 = ([](const auto &input) {
-        Watch watch;
-        return E2(input);
-    })(input);
-    std::cout << "    Result: " << r2 << "\n";
-}
+        return std::filesystem::path(INPUT_DIRECTORY) / ("day"s + std::to_string(DAY) + ".txt"s);
+    }
+};
