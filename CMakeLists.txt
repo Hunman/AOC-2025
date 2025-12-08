@@ -54,7 +54,7 @@ set(WARNING_FLAGS
         -Werror=write-strings
 )
 
-include_directories(include)
+include_directories(include input)
 
 function(make_day DAY)
     message(STATUS "Generating day ${DAY}")
@@ -66,7 +66,7 @@ function(make_day DAY)
     )
 
     target_compile_options("day${DAY}" PRIVATE ${WARNING_FLAGS})
-    target_compile_definitions("day${DAY}" PUBLIC INPUT_DIRECTORY="${INPUT_DIRECTORY}")
+    target_compile_definitions("day${DAY}" PUBLIC INPUT_FILE="${INPUT_DIRECTORY}/day${DAY}.txt")
     target_link_libraries("day${DAY}"
             tbb
     )

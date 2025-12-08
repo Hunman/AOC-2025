@@ -40,6 +40,6 @@ protected:
     static constexpr std::filesystem::path getInputPath() {
         using std::string_literals::operator""s;
 
-        return std::filesystem::path(INPUT_DIRECTORY) / ("day"s + std::to_string(DAY) + ".txt"s);
+        return std::filesystem::path(INPUT_FILE);
     }
 };
