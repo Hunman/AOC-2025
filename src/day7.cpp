@@ -1,15 +1,12 @@
 #include "day7/tachyon_manifold.hpp"
 #include "framework.hpp"
 
-#include <execution>
 #include <filesystem>
 #include <fstream>
 
 class Day7: public Day<7> {
 public:
-    static constexpr auto execution = std::execution::seq;
-
-    static TachyonManifold getInput() {
+    static auto getInput() {
         std::ifstream in{getInputPath()};
 
         auto lineCount = 0uz;
@@ -17,7 +14,7 @@ public:
             lineCount++;
         }
 
-        TachyonManifold::Input lines{lineCount};
+        std::vector<std::string> lines{lineCount};
         in.clear();
         in.seekg(0);
 
@@ -25,15 +22,15 @@ public:
             std::getline(in, lines[i]);
         }
 
-        return TachyonManifold{std::move(lines)};
+        return lines;
     }
 
-    static uint64_t exercise1(const TachyonManifold &input) {
-        return input.exercise1();
+    static constexpr uint64_t exercise1(const auto &input) {
+        return TachyonManifold::exercise1(input);
     }
 
-    static uint64_t exercise2(const TachyonManifold &input) {
-        return input.exercise2();
+    static constexpr uint64_t exercise2(const auto &input) {
+        return TachyonManifold::exercise2(input);
     }
 };
 

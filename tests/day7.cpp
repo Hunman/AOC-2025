@@ -2,7 +2,7 @@
 #include "gtest/gtest.h"
 
 TEST(Day7Test, GivenExercise1Test) {
-    TachyonManifold manifold({
+    std::vector<std::string> manifold({
         ".......S.......",
         "...............",
         ".......^.......",
@@ -21,11 +21,11 @@ TEST(Day7Test, GivenExercise1Test) {
         "...............",
     });
 
-    ASSERT_EQ(21, manifold.exercise1());
+    ASSERT_EQ(21, TachyonManifold::exercise1(manifold));
 }
 
 TEST(Day7Test, GivenExercise2Test) {
-    TachyonManifold manifold({
+    auto manifold = std::to_array<std::string_view>({
         ".......S.......",
         "...............",
         ".......^.......",
@@ -44,5 +44,5 @@ TEST(Day7Test, GivenExercise2Test) {
         "...............",
     });
 
-    ASSERT_EQ(40, manifold.exercise2());
+    ASSERT_EQ(40, TachyonManifold::exercise2(manifold));
 }

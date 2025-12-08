@@ -4,18 +4,10 @@
 #include <string>
 #include <vector>
 
-class TachyonManifold {
-public:
-    using Line = std::string;
-    using Input = std::vector<Line>;
-
+namespace TachyonManifold {
     static constexpr auto SPLITTER = '^';
 
-    TachyonManifold() = delete;
-
-    explicit TachyonManifold(Input &&input);
-
-    uint64_t exercise1() const {
+    static constexpr uint64_t exercise1(const auto &input) {
         std::vector<bool> beams(input[0].length());
 
         beams[input[0].find('S')] = true;
@@ -40,7 +32,7 @@ public:
         return splits - std::count(beams.begin(), beams.end(), true);
     }
 
-    uint64_t exercise2() const {
+    static constexpr uint64_t exercise2(const auto &input) {
         std::vector<uint64_t> beams(input[0].length());
 
         beams[input[0].find('S')] = true;
@@ -57,7 +49,4 @@ public:
 
         return std::reduce(beams.begin(), beams.end(), 0ull, std::plus{});
     }
-
-private:
-    Input input;
 };
