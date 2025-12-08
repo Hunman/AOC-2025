@@ -25,6 +25,12 @@ public:
         return lines;
     }
 
+    static consteval auto getConstInput() {
+        return std::to_array<std::string_view>({
+            #include "day7.hpp"
+        });
+    }
+
     static constexpr uint64_t exercise1(const auto &input) {
         return TachyonManifold::exercise1(input);
     }
@@ -35,7 +41,7 @@ public:
 };
 
 int main() {
-    Framework<Day7>::run();
+    Framework<Day7>::crun();
 
     return 0;
 }

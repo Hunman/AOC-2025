@@ -4,6 +4,11 @@
 #include <filesystem>
 
 template <typename T>
+concept CanParseInputCompileTime = requires () {
+    []() constexpr { return T::getConstInput(); };
+};
+
+template <typename T>
 class Framework {
 public:
     static void run() {
@@ -27,6 +32,29 @@ public:
             Watch watch;
             return T::exercise2(input);
         })(input);
+        std::cout << "    Result: " << r2 << "\n";
+    }
+
+    static void crun() requires CanParseInputCompileTime<T> {
+        std::printf("[Day %zu]\n", T::DAY);
+
+        printf("Reading input\n");
+        constexpr auto input = T::getConstInput();
+
+        printf("Exercise 1\n");
+        auto r1 = ([&input]() {
+            Watch watch;
+            constexpr auto result = T::exercise1(input);
+            return result;
+        })();
+        std::cout << "    Result: " << r1 << "\n";
+
+        printf("Exercise 2\n");
+        auto r2 = ([&input]() {
+            Watch watch;
+            constexpr auto result = T::exercise2(input);
+            return result;
+        })();
         std::cout << "    Result: " << r2 << "\n";
     }
 };
