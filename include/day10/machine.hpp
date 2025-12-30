@@ -1,4 +1,6 @@
 #pragma once
+#include "function_objects.hpp"
+
 #include <bitset>
 #include <iostream>
 #include <numeric>
@@ -25,17 +27,12 @@ public:
             totalCombinations
         );
 
-        auto min = []() {
-            return [](const auto &a, const auto &b) {
-                return std::min(a, b);
-            };
-        };
 
         return std::transform_reduce(
             combinations.begin(),
             combinations.end(),
             totalCombinations,
-            min(),
+            Minimum{},
             [this](size_t combination) {
                 uint64_t result = 0ull;
                 uint64_t lights = 0ull;
