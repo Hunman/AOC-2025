@@ -64,9 +64,7 @@ uint64_t JunctionBox::exercise1(std::vector<JunctionBox> input, size_t connectio
     }
 
     for (size_t i = 0; i < connectionCount; i++) {
-        auto minDistance = std::min_element(distances.begin(), distances.end(), [](double a, double b) {
-            return a < b;
-        });
+        auto minDistance = std::min_element(distances.begin(), distances.end(), std::less{});
         auto minIndex = std::distance(distances.begin(), minDistance);
         auto [x, y] = coord(minIndex);
         input[x].connect(input[y]);
@@ -122,9 +120,7 @@ uint64_t JunctionBox::exercise2(std::vector<JunctionBox> input) {
 
     size_t lastX, lastY, targetSize = 0uz;
     do {
-        auto minDistance = std::min_element(distances.begin(), distances.end(), [](double a, double b) {
-            return a < b;
-        });
+        auto minDistance = std::min_element(distances.begin(), distances.end(), std::less{});
         auto minIndex = std::distance(distances.begin(), minDistance);
         auto [x, y] = coord(minIndex);
         input[x].connect(input[y]);
