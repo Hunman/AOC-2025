@@ -70,4 +70,4 @@ jobs:
 
     - name: Test
       working-directory: ${{ steps.strings.outputs.build-output-dir }}
-      run: ./{{ steps.strings.outputs.build-output-dir }}/Test
+      run: ./${{ steps.strings.outputs.build-output-dir }}/Test
