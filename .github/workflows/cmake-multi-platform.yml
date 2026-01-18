@@ -42,6 +42,11 @@ jobs:
         sudo apt-get install -y libgtest-dev libtbb-dev g++-14
         sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-14 100
 
+    - name: Verify Version
+      run: |
+        cmake --version
+        g++ --version
+
     - name: Set reusable strings
       # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
       id: strings
