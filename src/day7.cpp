@@ -25,11 +25,14 @@ public:
         return lines;
     }
 
+    #if __has_include("day7.hpp")
+    #define HAS_COMPILE_TIME_AVAILABLE_INPUT
     static consteval auto getConstInput() {
         return std::to_array<std::string_view>({
             #include "day7.hpp"
         });
     }
+    #endif
 
     static constexpr uint64_t exercise1(const auto &input) {
         return TachyonManifold::exercise1(input);
@@ -41,7 +44,11 @@ public:
 };
 
 int main() {
-    Framework<Day7>::crun();
+    #if defined HAS_COMPILE_TIME_AVAILABLE_INPUT
+        Framework<Day7>::crun();
+    #else
+        Framework<Day7>::run();
+    #endif
 
     return 0;
 }

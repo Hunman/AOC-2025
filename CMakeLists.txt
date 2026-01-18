@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 4.0)
+cmake_minimum_required(VERSION 3.30)
 project(AdventOfCode)
 
 enable_testing()
@@ -8,6 +8,7 @@ find_package(GTest REQUIRED)
 find_package(TBB REQUIRED COMPONENTS tbb)
 
 set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 file(REAL_PATH ./input INPUT_DIRECTORY)
 message(STATUS "INPUT_DIRECTORY=${INPUT_DIRECTORY}")
@@ -71,19 +72,7 @@ function(make_day DAY)
             tbb
     )
 
-    add_executable("day${DAY}Test"
-            "tests/day${DAY}.cpp"
-            "${EXTRA_FILES}"
-    )
-
-    target_compile_options("day${DAY}Test" PRIVATE ${WARNING_FLAGS} --coverage)
-    target_link_libraries("day${DAY}Test"
-            GTest::Main
-            tbb
-            gcov
-    )
-
-    gtest_discover_tests("day${DAY}Test")
+    SET(TEST_FILES "${TEST_FILES}" "tests/day${DAY}.cpp" "${EXTRA_FILES}" PARENT_SCOPE)
 endfunction()
 
 include(GoogleTest)
@@ -99,3 +88,14 @@ make_day(7)
 make_day(8)
 make_day(9)
 make_day(10)
+
+add_executable("Test" ${TEST_FILES})
+
+target_compile_options("Test" PRIVATE ${WARNING_FLAGS} --coverage)
+target_link_libraries("Test"
+        GTest::Main
+        tbb
+        gcov
+)
+
+gtest_discover_tests("Test")
